@@ -62,13 +62,13 @@ resource "aws_alb_target_group" "group" {
 
 
 resource "aws_lb_target_group_attachment" "webserver-a" {
-  target_group_arn = aws_lb_target_group.group.arn
+  target_group_arn = aws_alb_target_group.group.arn
   target_id        = aws_instance.webserver-a.id
   port             = 80
 }
 
 resource "aws_lb_target_group_attachment" "webserver-b" {
-  target_group_arn = aws_lb_target_group.group.arn
+  target_group_arn = aws_alb_target_group.group.arn
   target_id        = aws_instance.webserver-b.id
   port             = 80
 }
