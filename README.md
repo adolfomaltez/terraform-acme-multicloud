@@ -18,7 +18,7 @@ cd terraform-acme-multicloud
 cd aws
 terraform init
 terraform plan
-terraform apply
+terraform apply -auto-approve
 ```
 - [ ] Es necesario esperar de 10 a 15 minutos para el aprovisionamiento de la infraestructura.
 - [ ] Validar acceso a aplicacion WEB (a traves del balanceador)
@@ -26,5 +26,12 @@ terraform apply
   - [ ] Descargar fichero de configuracion cliente VPN
   - [ ] Conectarse a VPN
   - [ ] Connectarse via SSH a los servidores.
+- [ ] Destruir infraestructura para que no genere costos adicionales.
+```sh
+terraform destroy -auto-approve
+```
 
 # Azure
+
+## References
+- [Install the Azure CLI on Linux](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-linux?pivots=apt)
