@@ -33,7 +33,7 @@ resource "aws_security_group" "alb" {
 
 # Create a new application load balancer.
 resource "aws_alb" "alb" {
-  name            = "terraform-example-alb"
+  name            = "acme-app-alb"
   security_groups = ["${aws_security_group.alb.id}"]
   subnets         = [ aws_subnet.public_subnet_a.id, aws_subnet.public_subnet_b.id ] 
 
@@ -44,7 +44,7 @@ resource "aws_alb" "alb" {
 
 # Create a new target group for the application load balancer.
 resource "aws_alb_target_group" "group" {
-  name     = "terraform-example-alb-target"
+  name     = "acme-app-alb-target"
   port     = 80
   protocol = "HTTP"
   vpc_id   = aws_vpc.acme-vpc.id
@@ -59,7 +59,6 @@ resource "aws_alb_target_group" "group" {
     port = 80
   }
 }
-
 
 resource "aws_lb_target_group_attachment" "webserver-a" {
   target_group_arn = aws_alb_target_group.group.arn
