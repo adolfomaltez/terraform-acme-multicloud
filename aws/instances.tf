@@ -16,7 +16,7 @@ resource "aws_instance" "webserver-a" {
   user_data = <<EOF
 #!/bin/bash
 # Provision EC2 instance with NGINX webserver
-
+hostnamectl set-hostname webserver-a
 apt-get -y update
 apt-get -y install nginx
 cat > /var/www/html/index.html << EOF
@@ -92,7 +92,7 @@ resource "aws_instance" "webserver-b" {
   user_data = <<EOF
 #!/bin/bash
 # Provision EC2 instance with NGINX webserver
-
+hostnamectl set-hostname webserver-b
 apt-get -y update
 apt-get -y install nginx
 cat > /var/www/html/index.html << EOF

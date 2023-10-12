@@ -50,6 +50,7 @@ resource "aws_alb_target_group" "group" {
   vpc_id   = aws_vpc.acme-vpc.id
 
   stickiness {
+    enabled = false
     type = "lb_cookie"
   }
 
@@ -84,6 +85,6 @@ resource "aws_alb_listener" "listener_http" {
   }
 }
 
-output "alb_dns_name" {
-value = aws_alb.alb.dns_name
-}
+#output "alb_dns_name" {
+#value = aws_alb.alb.dns_name
+#}
