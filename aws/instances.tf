@@ -35,13 +35,15 @@ resource "aws_instance" "webserver-a" {
     type        = "ssh"
     user        = "admin"
     password    = ""
-    private_key = file("acme-key.pem")
+    private_key = tls_private_key.key_pair.public_key_openssh
     host        = self.public_ip
   }
 
   tags = {
     Name = "webserver-a"
   }
+
+  depends_on = [aws_key_pair.key_pair]
 }
 
 # WEBSERVER PUBLIC ZONE B
@@ -80,13 +82,14 @@ resource "aws_instance" "webserver-b" {
     type        = "ssh"
     user        = "admin"
     password    = ""
-    private_key = file("acme-key.pem")
+    private_key = tls_private_key.key_pair.public_key_openssh
     host        = self.public_ip
   }
 
   tags = {
     Name = "webserver-b"
   }
+  depends_on = [aws_key_pair.key_pair]
 }
 
 # EIP
