@@ -60,6 +60,19 @@ resource "aws_alb_target_group" "group" {
   }
 }
 
+
+resource "aws_lb_target_group_attachment" "webserver-a" {
+  target_group_arn = aws_lb_target_group.group.arn
+  target_id        = aws_instance.webserver-a.id
+  port             = 80
+}
+
+resource "aws_lb_target_group_attachment" "webserver-b" {
+  target_group_arn = aws_lb_target_group.group.arn
+  target_id        = aws_instance.webserver-b.id
+  port             = 80
+}
+
 # Create a new application load balancer listener for HTTP.
 resource "aws_alb_listener" "listener_http" {
   load_balancer_arn = "${aws_alb.alb.arn}"
