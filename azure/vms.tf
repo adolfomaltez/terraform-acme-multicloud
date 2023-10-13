@@ -1,13 +1,25 @@
-#resource "azurerm_public_ip" "acme-public-ip-vm" {
-#  name                = "acme-public-ip-vm"
-#  location            = azurerm_resource_group.acme-rg.location
-#  resource_group_name = azurerm_resource_group.acme-rg.name
-#  allocation_method   = "Static"
-#
-#  tags = {
-#    environment = "acme-env"
-#  }
-#}
+resource "azurerm_public_ip" "acme-public-ip-webserver-a" {
+  name                = "acme-public-ip-webserver-a"
+  location            = azurerm_resource_group.acme-rg.location
+  resource_group_name = azurerm_resource_group.acme-rg.name
+  allocation_method   = "Static"
+
+  tags = {
+    environment = "acme-env"
+  }
+}
+
+resource "azurerm_public_ip" "acme-public-ip-webserver-b" {
+  name                = "acme-public-ip-webserver-b"
+  location            = azurerm_resource_group.acme-rg.location
+  resource_group_name = azurerm_resource_group.acme-rg.name
+  allocation_method   = "Static"
+
+  tags = {
+    environment = "acme-env"
+  }
+}
+
 
 # Create storage account for boot diagnostics
 resource "azurerm_storage_account" "acme_storage_account" {
@@ -84,7 +96,7 @@ resource "azurerm_network_interface" "webserver-a-nic" {
     name                          = "web-server-a-nic-configuration"
     subnet_id                     = azurerm_subnet.public_subnet_a.id
     private_ip_address_allocation = "Static"
-    #public_ip_address_id          = azurerm_public_ip.acme-public-ip-vm.id
+    #public_ip_address_id          = azurerm_public_ip.acme-public-ip-webserver-a.id
     private_ip_address = "10.0.11.11"
     private_ip_address_version = "IPv4"
   }
@@ -106,6 +118,7 @@ resource "azurerm_windows_virtual_machine" "webserver-a" {
   resource_group_name   = azurerm_resource_group.acme-rg.name
   network_interface_ids = [azurerm_network_interface.webserver-a-nic.id]
   size                  = "Standard_DS1_v2"
+  zone = 1
 
   os_disk {
     name                 = "webserver-a-disk"
@@ -155,7 +168,7 @@ resource "azurerm_network_interface" "webserver-b-nic" {
     name                          = "web-server-b-nic-configuration"
     subnet_id                     = azurerm_subnet.public_subnet_b.id
     private_ip_address_allocation = "Static"
-    #public_ip_address_id          = azurerm_public_ip.acme-public-ip-vm.id
+    #public_ip_address_id          = azurerm_public_ip.acme-public-ip-webserver-b.id
     private_ip_address = "10.0.12.11"
     private_ip_address_version = "IPv4"
   }
@@ -177,7 +190,8 @@ resource "azurerm_windows_virtual_machine" "webserver-b" {
   resource_group_name   = azurerm_resource_group.acme-rg.name
   network_interface_ids = [azurerm_network_interface.webserver-b-nic.id]
   size                  = "Standard_DS1_v2"
-
+  zone = 2
+  
   os_disk {
     name                 = "webserver-b-disk"
     caching              = "ReadWrite"

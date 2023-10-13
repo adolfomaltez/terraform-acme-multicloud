@@ -3,7 +3,7 @@ resource "azurerm_public_ip" "acme-public-ip" {
   location            = azurerm_resource_group.acme-rg.location
   resource_group_name = azurerm_resource_group.acme-rg.name
   allocation_method   = "Static"
-  #fqdn = 
+  sku = "Standard"
 
   tags = {
     environment = "acme-env"
@@ -14,6 +14,7 @@ resource "azurerm_lb" "acme-lb" {
   name                = "acme-lb"
   location            = azurerm_resource_group.acme-rg.location
   resource_group_name = azurerm_resource_group.acme-rg.name
+  sku =  "Standard"
 
   frontend_ip_configuration {
     name                 = "acme-lb-frontend-ip"
@@ -29,7 +30,6 @@ resource "azurerm_lb_backend_address_pool" "acme-lb-backend-pool" {
   loadbalancer_id     = azurerm_lb.acme-lb.id
   name                = "acme-lb-backend-pool"
   virtual_network_id = azurerm_virtual_network.acme-vnet.id
-  #backend_ip_configurations = azurerm_network_interface.webserver-a-nic.private_ip_address
 }
 
 
@@ -62,10 +62,12 @@ resource "azurerm_network_interface_backend_address_pool_association" "webserver
   network_interface_id    = azurerm_network_interface.webserver-a-nic.id
   ip_configuration_name   = azurerm_network_interface.webserver-a-nic.ip_configuration[0].name
   backend_address_pool_id = azurerm_lb_backend_address_pool.acme-lb-backend-pool.id
+  depends_on              = [azurerm_windows_virtual_machine.webserver-a]
 }
 
 resource "azurerm_network_interface_backend_address_pool_association" "webserver_b_nic_lb_associate" {
   network_interface_id    = azurerm_network_interface.webserver-b-nic.id
   ip_configuration_name   = azurerm_network_interface.webserver-b-nic.ip_configuration[0].name
   backend_address_pool_id = azurerm_lb_backend_address_pool.acme-lb-backend-pool.id
+  depends_on              = [azurerm_windows_virtual_machine.webserver-b]
 }
