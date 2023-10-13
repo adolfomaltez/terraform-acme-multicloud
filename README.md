@@ -67,3 +67,5 @@ terraform destroy
 
 ## References
 - [Install the Azure CLI on Linux](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-linux?pivots=apt)
+- [Install or update the latest version of the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+- [How to set up client VPN in AWS using Terraform](https://spak.no/blog/article/63f519260faeadeeeb968af2)
